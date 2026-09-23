@@ -1,57 +1,319 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#17130f">
-<title>BG's Kitchen — Digital Menu</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BG'S Kitchen | Digital Menu</title>
+
+    <meta name="description" content="Digital Menu BG'S Kitchen Jagakarsa">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<header class="hero">
-  <div class="hero-inner">
-    <div class="brand-mark">BG'S</div>
-    <p class="eyebrow">JAGAKARSA</p>
-    <h1>BG's Kitchen</h1>
-    <p class="tagline">Segar • Manis • Happy ♡</p>
-    <div class="meta"><span>⏰ 08.00 — 22.00</span><span>📍 Jagakarsa</span></div>
-  </div>
-</header>
 
-<main class="container">
-<section class="welcome">
-  <p class="section-kicker">DIGITAL MENU</p>
-  <h2>Pesan yang kamu suka.</h2>
-  <p>Scroll, pilih kategori, dan cek harga dengan mudah.</p>
-</section>
+<!-- NAVBAR -->
+<nav class="navbar">
 
-<nav class="tabs">
-  <button class="tab active" data-category="all">Semua</button>
-  <button class="tab" data-category="ice-cream">Ice Cream</button>
-  <button class="tab" data-category="dimsum">Dimsum</button>
-  <button class="tab" data-category="snack">Snack</button>
-  <button class="tab" data-category="drink">Drink</button>
+    <div class="brand">
+        <div class="brand-mark">BG'S</div>
+        <div>
+            <h1>BG'S KITCHEN</h1>
+            <span>JAGAKARSA</span>
+        </div>
+    </div>
+
+    <div class="nav-actions">
+    <button class="cart-btn" onclick="openCart()" aria-label="Keranjang">
+        🛒
+        <span id="cartCount">0</span>
+    </button>
+</div>
+
 </nav>
 
-<section id="menu" class="menu-grid"></section>
 
-<section class="info-card">
-  <div>
-    <p class="section-kicker">BG'S KITCHEN</p>
-    <h3>Mau pesan atau tanya sesuatu?</h3>
-    <p>Hubungi kami lewat WhatsApp untuk informasi lebih lanjut.</p>
-  </div>
-  <a class="wa-button" href="https://wa.me/6287863194937" target="_blank" rel="noopener">WhatsApp ↗</a>
+<!-- HERO -->
+<header class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">WELCOME TO BG'S KITCHEN</span>
+
+        <h2>
+            Simple Food.<br>
+            <em>Special Moments.</em>
+        </h2>
+
+        <p>
+            Nikmati pilihan makanan dan minuman favorit
+            dari BG'S Kitchen, Jagakarsa.
+        </p>
+
+        <a href="#menu" class="hero-btn">
+            Lihat Menu
+            <span>↓</span>
+        </a>
+
+    </div>
+
+    <div class="hero-decoration">
+        <span>BG'S</span>
+        <small>KITCHEN</small>
+    </div>
+
+</header>
+
+
+<!-- INFO BAR -->
+<section class="info-bar">
+
+    <div class="info-item">
+        <span>OPEN</span>
+        <strong>BG'S Kitchen</strong>
+    </div>
+
+    <div class="info-item">
+        <span>LOCATION</span>
+        <strong>Jagakarsa</strong>
+    </div>
+
+    <div class="info-item">
+        <span>ORDER</span>
+        <strong>WhatsApp</strong>
+    </div>
+
 </section>
+
+
+<!-- MENU -->
+<main id="menu">
+
+    <section class="menu-heading">
+
+        <div>
+            <span class="eyebrow">OUR MENU</span>
+            <h2>Choose Your <em>Favorite.</em></h2>
+        </div>
+
+        <p>
+            Pilih menu favoritmu dan masukkan
+            ke dalam keranjang.
+        </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+    <div class="search-wrapper">
+
+        <span>⌕</span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari menu..."
+        >
+
+    </div>
+
+
+    <!-- FILTER -->
+    <div class="filter-wrapper">
+
+        <button class="filter active" data-category="all">
+            All
+        </button>
+
+        <button class="filter" data-category="ice cream">
+            Ice Cream
+        </button>
+
+        <button class="filter" data-category="dimsum">
+            Dimsum
+        </button>
+
+        <button class="filter" data-category="snack">
+            Snack
+        </button>
+
+        <button class="filter" data-category="drinks">
+            Drinks
+        </button>
+
+    </div>
+
+
+    <!-- MENU GRID -->
+    <section class="menu-grid" id="menuGrid">
+        <!-- Javascript akan mengisi menu -->
+    </section>
+
 </main>
 
+
+<!-- PROMO -->
+<section class="promo">
+
+    <div>
+
+        <span class="eyebrow">BG'S EXPERIENCE</span>
+
+        <h2>
+            Good food tastes<br>
+            better with <em>good company.</em>
+        </h2>
+
+    </div>
+
+    <div class="promo-symbol">
+        ✦
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
 <footer>
-<p>© 2026 BG's Kitchen • Jagakarsa</p>
-<p>Available on GoFood • GrabFood • ShopeeFood</p>
+
+    <div class="footer-brand">
+
+        <div class="footer-logo">
+            BG'S
+        </div>
+
+        <h3>BG'S KITCHEN</h3>
+
+        <p>
+            Food, drinks & good moments<br>
+            from Jagakarsa.
+        </p>
+
+    </div>
+
+
+    <div class="footer-column">
+
+        <span>CONTACT</span>
+
+        <a href="#" id="whatsappFooter">
+            WhatsApp
+        </a>
+
+        <a href="#">
+            Jagakarsa, Jakarta
+        </a>
+
+    </div>
+
+
+    <div class="footer-column">
+
+        <span>MENU</span>
+
+        <a href="#menu">
+            Ice Cream
+        </a>
+
+        <a href="#menu">
+            Dimsum
+        </a>
+
+        <a href="#menu">
+            Snack
+        </a>
+
+        <a href="#menu">
+            Drinks
+        </a>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 BG'S Kitchen. All rights reserved.
+
+    </div>
+
 </footer>
+
+
+<!-- CART OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+
+<!-- CART -->
+<aside class="cart-panel" id="cartPanel">
+
+    <div class="cart-header">
+
+        <div>
+            <span class="eyebrow">YOUR ORDER</span>
+            <h2>Your Cart</h2>
+        </div>
+
+        <button id="closeCart">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="cart-items" id="cartItems">
+
+        <div class="empty-cart">
+            <div>🛒</div>
+            <h3>Keranjang masih kosong</h3>
+            <p>
+                Pilih menu favoritmu untuk mulai memesan.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="cart-footer">
+
+        <div class="total-row">
+
+            <span>Total</span>
+
+            <strong id="cartTotal">
+                Rp0
+            </strong>
+
+        </div>
+
+        <button class="order-btn" id="orderBtn">
+            Pesan via WhatsApp
+            <span>→</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    Menu ditambahkan ke keranjang ✓
+</div>
+
+
+<!-- BACK TO TOP -->
+<button class="top-btn" id="topBtn">
+    ↑
+</button>
+
+
 <script src="script.js"></script>
+
 </body>
 </html>
