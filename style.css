@@ -883,10 +883,13 @@ footer {
 
 .cart-items {
     flex: 1;
-
+    min-height: 0;
     overflow-y: auto;
-
     padding: 20px 30px;
+}
+
+.cart-footer {
+    flex-shrink: 0;
 }
 
 .empty-cart {
