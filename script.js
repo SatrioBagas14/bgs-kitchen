@@ -16,6 +16,7 @@ const CART_EXPIRY = 30 * 60 * 1000;
 
 // State untuk pilihan jumlah topping Seblak
 let activeSeblakId = null;
+let activeSeblakLevel = 0;
 let seblakToppingQuantities = {};
 
 
@@ -378,9 +379,12 @@ function loadCart() {
                 cartItemId,
                 price: product.price + extra,
                 originalPrice: product.price,
-                variant,
-                toppings: selectedToppings,
-                qty
+               variant,
+toppings: selectedToppings,
+spicyLevel: product.id === 67
+    ? Math.max(0, Math.min(5, Number(item.spicyLevel) || 0))
+    : null,
+qty
             };
         }).filter(Boolean);
 
@@ -718,7 +722,7 @@ function closeToppingModal() {
    ADD TO CART
 ========================================================= */
 
-function addToCart(id, variant = null, selectedToppings = []) {
+function addToCart(id, variant = null, selectedToppings = [], spicyLevel = null) {
     const product = menu.find(
         item => item.id === Number(id)
     );
@@ -741,7 +745,9 @@ function addToCart(id, variant = null, selectedToppings = []) {
     }, 0);
 
     const cartItemId = variant
-        ? `${product.id}-variant-${variant}`
+    ? `${product.id}-variant-${variant}`
+    : product.id === 67
+        ? `${product.id}-level-${spicyLevel ?? 0}-topping-${selectedToppings.slice().sort().join("|")}`
         : selectedToppings.length
             ? `${product.id}-topping-${selectedToppings.slice().sort().join("|")}`
             : String(product.id);
@@ -759,8 +765,10 @@ function addToCart(id, variant = null, selectedToppings = []) {
             price: product.price + extra,
             originalPrice: product.price,
             variant,
-            toppings: selectedToppings,
+            toppings: selectedToppings, 
+            spicyLevel: product.id === 67 ? (spicyLevel ?? 0) : null,
             qty: 1
+        
         });
     }
 
@@ -886,11 +894,13 @@ function addVariantToCart(id) {
    SEBLAK MODAL
 ========================================================= */
 
+
 function openSeblakModal(id) {
     const product = menu.find(item => item.id === Number(id));
     if (!product || !Array.isArray(product.toppingOptions)) return;
 
     activeSeblakId = Number(id);
+    activeSeblakLevel = 0;
     seblakToppingQuantities = {};
 
     product.toppingOptions.forEach((topping, index) => {
@@ -911,9 +921,36 @@ function openSeblakModal(id) {
 
             <span class="eyebrow">SEBLAK</span>
             <h2>${product.name}</h2>
+
             <p class="topping-subtitle">
                 Seblak Original - ${formatRupiah(product.price)}
             </p>
+
+            <h3>Pilih Level Pedas</h3>
+
+            <div class="topping-list">
+                ${[
+                    "Tidak Pedas",
+                    "Sedikit Pedas",
+                    "Pedas Sedang",
+                    "Pedas",
+                    "Sangat Pedas",
+                    "Extra Pedas"
+                ].map((level, index) => `
+                    <label class="topping-option">
+                        <input
+                            type="radio"
+                            name="seblakLevel"
+                            value="${index}"
+                            ${index === 0 ? "checked" : ""}
+                            onchange="updateSeblakLevel(this.value)"
+                        >
+                        <span class="topping-name">
+                            Level ${index} - ${level}
+                        </span>
+                    </label>
+                `).join("")}
+            </div>
 
             <h3>Pilih Topping</h3>
 
@@ -955,6 +992,10 @@ function openSeblakModal(id) {
     `;
 
     document.body.appendChild(modal);
+}
+
+function updateSeblakLevel(level) {
+    activeSeblakLevel = Number(level);
 }
 
 
@@ -1018,7 +1059,12 @@ function addSeblakToCart() {
         }
     });
 
-    addToCart(product.id, null, selectedToppings);
+    addToCart(
+        product.id,
+        null,
+        selectedToppings,
+        activeSeblakLevel
+    );
 
     closeSeblakModal();
 }
@@ -1034,7 +1080,9 @@ function closeSeblakModal() {
     if (modal) modal.remove();
 
     activeSeblakId = null;
+    activeSeblakLevel = 0;
     seblakToppingQuantities = {};
+    
 }
 
 /* =========================================================
@@ -1204,6 +1252,10 @@ function updateCart() {
             details.push(`Varian: ${item.variant}`);
         }
 
+        if (Number(item.id) === 67) {
+    details.push(`Level Pedas: Level ${item.spicyLevel ?? 0}`);
+}
+
         if (Array.isArray(item.toppings) && item.toppings.length > 0) {
             details.push(`Topping: ${item.toppings.join(", ")}`);
         }
@@ -1366,6 +1418,9 @@ if (orderBtn) {
 
             if (item.variant) {
                 message += ` (${item.variant})`;
+            }
+            if (Number(item.id) === 67) {
+                message += ` (Level Pedas ${item.spicyLevel ?? 0})`;
             }
 
             message += ` x${item.qty}\n`;
